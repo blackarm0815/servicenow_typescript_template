@@ -1,4 +1,4 @@
-var networkAdapterTester = function (cmdbCiNetworkAdapterSysIdArray) {
+var main = function (sysIdArray) {
   //
   var report = {};
   return report;
