@@ -8,5 +8,9 @@ npx eslint $javascript_file --no-eslintrc --fix --rule 'indent: [2, 2]'
 npx eslint $javascript_file --no-eslintrc --fix --rule 'brace-style: ["error", "1tbs", { "allowSingleLine": true }]'
 if npx eslint $javascript_file
 then
-  sed  's/\/\/ eslint-disable-line//g' $javascript_file | grep -v eslint-disable-next-line > $final_file
+  sed  -i 's/\/\/ eslint-disable-line//g' $javascript_file
+  grep -v eslint-disable-next-line < $javascript_file > a.js
+  grep -v @ts-ignore < a.js > b.js
+  mv b.js $final_file
+  rm a.js
 fi
