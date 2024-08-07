@@ -1,0 +1,1 @@
+# servicenow_typescript_template
