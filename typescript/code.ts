@@ -33,7 +33,7 @@ interface ReportData {
   urlNetworkAdapter: string,
 }
 // eslint-disable-next-line
-const cmdbCiNetworkAdapterTester = (networkAdapterSysIdArray: Array<string>) => {
+const magnusCmdbCiNetworkAdapterReport = (networkAdapterSysIdArray: Array<string>) => {
   //
   interface NetworkAdapterData {
     ciSysId: string | null;
@@ -51,7 +51,7 @@ const cmdbCiNetworkAdapterTester = (networkAdapterSysIdArray: Array<string>) => 
   //
   //
   // const testConnectedPortFieldsAlreadyMatchMainFields = (
-  //   adapterMainSysId: string,
+  //   testNetworkAdapterSysId: string,
   // ) => {
   //   //
   //   let foundConnected: NetworkAdapterData | null = null;
@@ -59,10 +59,10 @@ const cmdbCiNetworkAdapterTester = (networkAdapterSysIdArray: Array<string>) => 
   //   //
   //   if (connectedPortSysId !== null) {
   //     foundConnected = adapterData[connectedPortSysId];
-  //     foundMain = adapterData[adapterMainSysId];
+  //     foundMain = adapterData[testNetworkAdapterSysId];
   //     if (foundConnected !== undefined && foundMain !== undefined) {
   //       // proceed if either field needs fixing
-  //       if (foundConnected.connectedCiSysId !== foundMain.ciSysId || foundConnected.connectedPortSysId !== adapterMainSysId) {
+  //       if (foundConnected.connectedCiSysId !== foundMain.ciSysId || foundConnected.connectedPortSysId !== testNetworkAdapterSysId) {
   //         return true;
   //       }
   //     }
@@ -70,14 +70,14 @@ const cmdbCiNetworkAdapterTester = (networkAdapterSysIdArray: Array<string>) => 
   //   return false;
   // };
   const testMainConnectedCiValid = (
-    adapterMainSysId: string,
+    testNetworkAdapterSysId: string,
   ) => {
     //
     let foundMain: NetworkAdapterData | null = null;
     //
-    // does adapterMainSysId exist in adapterData
-    if (Object.prototype.hasOwnProperty.call(adapterData, adapterMainSysId)) {
-      foundMain = adapterData[adapterMainSysId];
+    // does testNetworkAdapterSysId exist in adapterData (was the network adapter sys_id even found)
+    if (Object.prototype.hasOwnProperty.call(adapterData, testNetworkAdapterSysId)) {
+      foundMain = adapterData[testNetworkAdapterSysId];
       // does the ci have a reference
       if (foundMain.connectedCiSysId !== null) {
         // does that reference exist in cmdb_ci
@@ -89,14 +89,14 @@ const cmdbCiNetworkAdapterTester = (networkAdapterSysIdArray: Array<string>) => 
     return false;
   };
   const testMainConnectedCiNotEmpty = (
-    adapterMainSysId: string,
+    testNetworkAdapterSysId: string,
   ) => {
     //
     let foundMain: NetworkAdapterData | null = null;
     //
-    // does adapterMainSysId exist in adapterData
-    if (Object.prototype.hasOwnProperty.call(adapterData, adapterMainSysId)) {
-      foundMain = adapterData[adapterMainSysId];
+    // does testNetworkAdapterSysId exist in adapterData (was the network adapter sys_id even found)
+    if (Object.prototype.hasOwnProperty.call(adapterData, testNetworkAdapterSysId)) {
+      foundMain = adapterData[testNetworkAdapterSysId];
       // does the ci have a reference
       if (foundMain.connectedCiSysId !== null) {
         return true;
@@ -105,14 +105,14 @@ const cmdbCiNetworkAdapterTester = (networkAdapterSysIdArray: Array<string>) => 
     return false;
   };
   const testMainCiValid = (
-    adapterMainSysId: string,
+    testNetworkAdapterSysId: string,
   ) => {
     //
     let foundMain: NetworkAdapterData | null = null;
     //
-    // does adapterMainSysId exist in adapterData
-    if (Object.prototype.hasOwnProperty.call(adapterData, adapterMainSysId)) {
-      foundMain = adapterData[adapterMainSysId];
+    // does testNetworkAdapterSysId exist in adapterData (was the network adapter sys_id even found)
+    if (Object.prototype.hasOwnProperty.call(adapterData, testNetworkAdapterSysId)) {
+      foundMain = adapterData[testNetworkAdapterSysId];
       // does the ci have a reference
       if (foundMain.ciSysId !== null) {
         // does that reference exist in cmdb_ci
@@ -124,14 +124,14 @@ const cmdbCiNetworkAdapterTester = (networkAdapterSysIdArray: Array<string>) => 
     return false;
   };
   const testMainCiNotEmpty = (
-    adapterMainSysId: string,
+    testNetworkAdapterSysId: string,
   ) => {
     //
     let foundMain: NetworkAdapterData | null = null;
     //
-    // does adapterMainSysId exist in adapterData
-    if (Object.prototype.hasOwnProperty.call(adapterData, adapterMainSysId)) {
-      foundMain = adapterData[adapterMainSysId];
+    // does testNetworkAdapterSysId exist in adapterData (was the network adapter sys_id even found)
+    if (Object.prototype.hasOwnProperty.call(adapterData, testNetworkAdapterSysId)) {
+      foundMain = adapterData[testNetworkAdapterSysId];
       // does the ci have a reference
       if (foundMain.ciSysId !== null) {
         return true;
@@ -140,14 +140,14 @@ const cmdbCiNetworkAdapterTester = (networkAdapterSysIdArray: Array<string>) => 
     return false;
   };
   const testMainConnectedPortValid = (
-    adapterMainSysId: string,
+    testNetworkAdapterSysId: string,
   ) => {
     //
     let foundMain: NetworkAdapterData | null = null;
     //
-    // does adapterMainSysId exist in adapterData
-    if (Object.prototype.hasOwnProperty.call(adapterData, adapterMainSysId)) {
-      foundMain = adapterData[adapterMainSysId];
+    // does testNetworkAdapterSysId exist in adapterData (was the network adapter sys_id even found)
+    if (Object.prototype.hasOwnProperty.call(adapterData, testNetworkAdapterSysId)) {
+      foundMain = adapterData[testNetworkAdapterSysId];
       // does the connected port have a reference
       if (foundMain.connectedPortSysId !== null) {
         // does that reference exist in cmdb_ci_network_adapter
@@ -159,14 +159,14 @@ const cmdbCiNetworkAdapterTester = (networkAdapterSysIdArray: Array<string>) => 
     return false;
   };
   const testMainConnectedPortNotEmpty = (
-    adapterMainSysId: string,
+    testNetworkAdapterSysId: string,
   ) => {
     //
     let foundMain: NetworkAdapterData | null = null;
     //
-    // does adapterMainSysId exist in adapterData
-    if (Object.prototype.hasOwnProperty.call(adapterData, adapterMainSysId)) {
-      foundMain = adapterData[adapterMainSysId];
+    // does testNetworkAdapterSysId exist in adapterData (was the network adapter sys_id even found)
+    if (Object.prototype.hasOwnProperty.call(adapterData, testNetworkAdapterSysId)) {
+      foundMain = adapterData[testNetworkAdapterSysId];
       // does the connected port have a reference
       if (foundMain.connectedPortSysId !== null) {
         return true;
@@ -175,15 +175,15 @@ const cmdbCiNetworkAdapterTester = (networkAdapterSysIdArray: Array<string>) => 
     return false;
   };
   const testMainConnectedCiMatchesConnectedPortCi = (
-    adapterMainSysId: string,
+    testNetworkAdapterSysId: string,
   ) => {
     //
     let foundConnected: NetworkAdapterData | null = null;
     let foundMain: NetworkAdapterData | null = null;
     //
-    // does adapterMainSysId exist in adapterData
-    if (Object.prototype.hasOwnProperty.call(adapterData, adapterMainSysId)) {
-      foundMain = adapterData[adapterMainSysId];
+    // does testNetworkAdapterSysId exist in adapterData (was the network adapter sys_id even found)
+    if (Object.prototype.hasOwnProperty.call(adapterData, testNetworkAdapterSysId)) {
+      foundMain = adapterData[testNetworkAdapterSysId];
       // does the connected port have a reference
       if (foundMain.connectedPortSysId !== null) {
         // does the connected port exist in adapterData
@@ -205,7 +205,7 @@ const cmdbCiNetworkAdapterTester = (networkAdapterSysIdArray: Array<string>) => 
     return false;
   };
   const testAdapterMain = (
-    adapterMainSysId: string,
+    testNetworkAdapterSysId: string,
   ) => {
     //
     let url = '';
@@ -213,14 +213,14 @@ const cmdbCiNetworkAdapterTester = (networkAdapterSysIdArray: Array<string>) => 
     // @ts-ignore
     url += gs.getProperty('glide.servlet.uri'); // eslint-disable-line
     //
-    reportData[adapterMainSysId] = {
-      testMainCiNotEmpty: testMainCiNotEmpty(adapterMainSysId),
-      testMainCiValid: testMainCiValid(adapterMainSysId),
-      testMainConnectedCiMatchesConnectedPortCi: testMainConnectedCiMatchesConnectedPortCi(adapterMainSysId),
-      testMainConnectedCiNotEmpty: testMainConnectedCiNotEmpty(adapterMainSysId),
-      testMainConnectedCiValid: testMainConnectedCiValid(adapterMainSysId),
-      testMainConnectedPortNotEmpty: testMainConnectedPortNotEmpty(adapterMainSysId),
-      testMainConnectedPortValid: testMainConnectedPortValid(adapterMainSysId),
+    reportData[testNetworkAdapterSysId] = {
+      testMainCiNotEmpty: testMainCiNotEmpty(testNetworkAdapterSysId),
+      testMainCiValid: testMainCiValid(testNetworkAdapterSysId),
+      testMainConnectedCiMatchesConnectedPortCi: testMainConnectedCiMatchesConnectedPortCi(testNetworkAdapterSysId),
+      testMainConnectedCiNotEmpty: testMainConnectedCiNotEmpty(testNetworkAdapterSysId),
+      testMainConnectedCiValid: testMainConnectedCiValid(testNetworkAdapterSysId),
+      testMainConnectedPortNotEmpty: testMainConnectedPortNotEmpty(testNetworkAdapterSysId),
+      testMainConnectedPortValid: testMainConnectedPortValid(testNetworkAdapterSysId),
       testConnectedPortFieldsAlreadyMatchMainFields: false,
       testConnectedPortCiNotEmpty: false,
       testConnectedPortCiValid: false,
@@ -228,20 +228,32 @@ const cmdbCiNetworkAdapterTester = (networkAdapterSysIdArray: Array<string>) => 
       testConnectedPortConnectedCiValid: false,
       testConnectedPortConnectedPortNotEmpty: false,
       testConnectedPortConnectedPortValid: false,
-      urlNetworkAdapter: `${url}cmdb_ci_network_adapter.do?sys_id=${adapterMainSysId}`,
+      urlNetworkAdapter: `${url}cmdb_ci_network_adapter.do?sys_id=${testNetworkAdapterSysId}`,
     };
   };
   const adapterLoop = () => {
-    networkAdapterSysIdArray.forEach((adapterMainSysId) => {
-      testAdapterMain(adapterMainSysId);
+    networkAdapterSysIdArray.forEach((testNetworkAdapterSysId) => {
+      testAdapterMain(testNetworkAdapterSysId);
     });
   };
-  const checkString = (
-    testVariable: unknown,
+  const checkSysId = (
+    testSysId: unknown,
   ) => {
-    if (typeof testVariable === 'string') {
-      if (testVariable !== '') {
-        return testVariable;
+    //
+    let whiteSpaceRemoved: String = '';
+    //
+    // the type is string
+    if (typeof testSysId === 'string') {
+      // copy the test sys_id to a string that will have all whitespace removed
+      whiteSpaceRemoved = testSysId;
+      whiteSpaceRemoved.replace(' ', '');
+      whiteSpaceRemoved.replace(/\t/g, '');
+      // the string contains non whitespace characters
+      if (whiteSpaceRemoved !== '') {
+        // the string is 32 characters long. standard for a servicenow sys_id
+        if (testSysId.length === 32) {
+          return testSysId;
+        }
       }
     }
     return null;
@@ -260,7 +272,7 @@ const cmdbCiNetworkAdapterTester = (networkAdapterSysIdArray: Array<string>) => 
     // @ts-ignore
     while (grHardware.next()) {
       // @ts-ignore
-      ciSysId = checkString(grHardware.getValue('sys_id'));
+      ciSysId = checkSysId(grHardware.getValue('sys_id'));
       if (ciSysId !== null) {
         validCiSysId[ciSysId] = true;
       }
@@ -285,13 +297,13 @@ const cmdbCiNetworkAdapterTester = (networkAdapterSysIdArray: Array<string>) => 
     // @ts-ignore
     while (grPortConnected.next()) {
       // @ts-ignore
-      adapterRemoteSysId = checkString(grPortConnected.getUniqueValue());
+      adapterRemoteSysId = checkSysId(grPortConnected.getUniqueValue());
       // @ts-ignore
-      ciSysId = checkString(grPortConnected.getValue('cmdb_ci'));
+      ciSysId = checkSysId(grPortConnected.getValue('cmdb_ci'));
       // @ts-ignore
-      connectedCiSysId = checkString(grPortConnected.getValue('u_switch'));
+      connectedCiSysId = checkSysId(grPortConnected.getValue('u_switch'));
       // @ts-ignore
-      connectedPortSysId = checkString(grPortConnected.getValue('u_switchport'));
+      connectedPortSysId = checkSysId(grPortConnected.getValue('u_switchport'));
       if (adapterRemoteSysId !== null) {
         adapterData[adapterRemoteSysId] = {
           ciSysId,
@@ -326,7 +338,7 @@ const cmdbCiNetworkAdapterTester = (networkAdapterSysIdArray: Array<string>) => 
     }
   };
   const getNetworkAdaptersMain = () => {
-    let adapterMainSysId: string | null;
+    let testNetworkAdapterSysId: string | null;
     let ciSysId: string | null;
     let connectedCiSysId: string | null;
     let connectedPortSysId: string | null;
@@ -341,15 +353,15 @@ const cmdbCiNetworkAdapterTester = (networkAdapterSysIdArray: Array<string>) => 
     // @ts-ignore
     while (grPortMain.next()) {
       // @ts-ignore
-      adapterMainSysId = checkString(grPortMain.getUniqueValue());
+      testNetworkAdapterSysId = checkSysId(grPortMain.getUniqueValue());
       // @ts-ignore
-      ciSysId = checkString(grPortMain.getValue('cmdb_ci'));
+      ciSysId = checkSysId(grPortMain.getValue('cmdb_ci'));
       // @ts-ignore
-      connectedCiSysId = checkString(grPortMain.getValue('u_switch'));
+      connectedCiSysId = checkSysId(grPortMain.getValue('u_switch'));
       // @ts-ignore
-      connectedPortSysId = checkString(grPortMain.getValue('u_switchport'));
-      if (adapterMainSysId !== null) {
-        adapterData[adapterMainSysId] = {
+      connectedPortSysId = checkSysId(grPortMain.getValue('u_switchport'));
+      if (testNetworkAdapterSysId !== null) {
+        adapterData[testNetworkAdapterSysId] = {
           ciSysId,
           connectedCiSysId,
           connectedPortSysId,
@@ -400,12 +412,12 @@ const cmdbCiNetworkAdapterTester = (networkAdapterSysIdArray: Array<string>) => 
 //
 let foo: Record<string, ReportData> = {};
 //
-const checkString = (
-  testVariable: unknown,
+const checkSysId = (
+  testSysId: unknown,
 ) => {
-  if (typeof testVariable === 'string') {
-    if (testVariable !== '') {
-      return testVariable;
+  if (typeof testSysId === 'string') {
+    if (testSysId !== '') {
+      return testSysId;
     }
   }
   return null;
@@ -427,7 +439,7 @@ const getTestData = () => {
   // @ts-ignore
   while (grTestAdapters.next()) {
     // @ts-ignore
-    checkAdapterSysId = checkString(grTestAdapters.getUniqueValue());
+    checkAdapterSysId = checkSysId(grTestAdapters.getUniqueValue());
     if (checkAdapterSysId !== null) {
       testAdapterData.push(checkAdapterSysId);
     }
@@ -466,7 +478,7 @@ const networkAdapterSysIdArray = getTestData();
 //
 //
 //
-foo = cmdbCiNetworkAdapterTester(networkAdapterSysIdArray);
+foo = magnusCmdbCiNetworkAdapterReport(networkAdapterSysIdArray);
 //
 //
 //

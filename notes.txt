@@ -1,0 +1,7 @@
+- a script include for generating reports on cmdb_ci_network_adapter. requires an array of network adapter sys_ids
+https://godaddydev.service-now.com/now/nav/ui/classic/params/target/sys_script_include.do%3Fsys_id%3D200195f81b80da50eb02fe631a4bcbb3
+
+- a simple widget to accept an array of network adapters in a url, get the report data from the script include and show the data
+
+
+- a ui action to give a dropdown option on the  cmdb_ci_network_adapter list view

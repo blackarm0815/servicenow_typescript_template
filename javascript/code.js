@@ -1,5 +1,5 @@
 // eslint-disable-next-line
-var cmdbCiNetworkAdapterTester = function (networkAdapterSysIdArray) {
+var magnusCmdbCiNetworkAdapterReport = function (networkAdapterSysIdArray) {
   // globals
   var adapterData = {};
   var uniqueCiSysIds = {};
@@ -11,7 +11,7 @@ var cmdbCiNetworkAdapterTester = function (networkAdapterSysIdArray) {
   //
   //
   // const testConnectedPortFieldsAlreadyMatchMainFields = (
-  //   adapterMainSysId: string,
+  //   testNetworkAdapterSysId: string,
   // ) => {
   //   //
   //   let foundConnected: NetworkAdapterData | null = null;
@@ -19,23 +19,23 @@ var cmdbCiNetworkAdapterTester = function (networkAdapterSysIdArray) {
   //   //
   //   if (connectedPortSysId !== null) {
   //     foundConnected = adapterData[connectedPortSysId];
-  //     foundMain = adapterData[adapterMainSysId];
+  //     foundMain = adapterData[testNetworkAdapterSysId];
   //     if (foundConnected !== undefined && foundMain !== undefined) {
   //       // proceed if either field needs fixing
-  //       if (foundConnected.connectedCiSysId !== foundMain.ciSysId || foundConnected.connectedPortSysId !== adapterMainSysId) {
+  //       if (foundConnected.connectedCiSysId !== foundMain.ciSysId || foundConnected.connectedPortSysId !== testNetworkAdapterSysId) {
   //         return true;
   //       }
   //     }
   //   }
   //   return false;
   // };
-  var testMainConnectedCiValid = function (adapterMainSysId) {
+  var testMainConnectedCiValid = function (testNetworkAdapterSysId) {
     //
     var foundMain = null;
     //
-    // does adapterMainSysId exist in adapterData
-    if (Object.prototype.hasOwnProperty.call(adapterData, adapterMainSysId)) {
-      foundMain = adapterData[adapterMainSysId];
+    // does testNetworkAdapterSysId exist in adapterData (was the network adapter sys_id even found)
+    if (Object.prototype.hasOwnProperty.call(adapterData, testNetworkAdapterSysId)) {
+      foundMain = adapterData[testNetworkAdapterSysId];
       // does the ci have a reference
       if (foundMain.connectedCiSysId !== null) {
         // does that reference exist in cmdb_ci
@@ -46,13 +46,13 @@ var cmdbCiNetworkAdapterTester = function (networkAdapterSysIdArray) {
     }
     return false;
   };
-  var testMainConnectedCiNotEmpty = function (adapterMainSysId) {
+  var testMainConnectedCiNotEmpty = function (testNetworkAdapterSysId) {
     //
     var foundMain = null;
     //
-    // does adapterMainSysId exist in adapterData
-    if (Object.prototype.hasOwnProperty.call(adapterData, adapterMainSysId)) {
-      foundMain = adapterData[adapterMainSysId];
+    // does testNetworkAdapterSysId exist in adapterData (was the network adapter sys_id even found)
+    if (Object.prototype.hasOwnProperty.call(adapterData, testNetworkAdapterSysId)) {
+      foundMain = adapterData[testNetworkAdapterSysId];
       // does the ci have a reference
       if (foundMain.connectedCiSysId !== null) {
         return true;
@@ -60,13 +60,13 @@ var cmdbCiNetworkAdapterTester = function (networkAdapterSysIdArray) {
     }
     return false;
   };
-  var testMainCiValid = function (adapterMainSysId) {
+  var testMainCiValid = function (testNetworkAdapterSysId) {
     //
     var foundMain = null;
     //
-    // does adapterMainSysId exist in adapterData
-    if (Object.prototype.hasOwnProperty.call(adapterData, adapterMainSysId)) {
-      foundMain = adapterData[adapterMainSysId];
+    // does testNetworkAdapterSysId exist in adapterData (was the network adapter sys_id even found)
+    if (Object.prototype.hasOwnProperty.call(adapterData, testNetworkAdapterSysId)) {
+      foundMain = adapterData[testNetworkAdapterSysId];
       // does the ci have a reference
       if (foundMain.ciSysId !== null) {
         // does that reference exist in cmdb_ci
@@ -77,13 +77,13 @@ var cmdbCiNetworkAdapterTester = function (networkAdapterSysIdArray) {
     }
     return false;
   };
-  var testMainCiNotEmpty = function (adapterMainSysId) {
+  var testMainCiNotEmpty = function (testNetworkAdapterSysId) {
     //
     var foundMain = null;
     //
-    // does adapterMainSysId exist in adapterData
-    if (Object.prototype.hasOwnProperty.call(adapterData, adapterMainSysId)) {
-      foundMain = adapterData[adapterMainSysId];
+    // does testNetworkAdapterSysId exist in adapterData (was the network adapter sys_id even found)
+    if (Object.prototype.hasOwnProperty.call(adapterData, testNetworkAdapterSysId)) {
+      foundMain = adapterData[testNetworkAdapterSysId];
       // does the ci have a reference
       if (foundMain.ciSysId !== null) {
         return true;
@@ -91,13 +91,13 @@ var cmdbCiNetworkAdapterTester = function (networkAdapterSysIdArray) {
     }
     return false;
   };
-  var testMainConnectedPortValid = function (adapterMainSysId) {
+  var testMainConnectedPortValid = function (testNetworkAdapterSysId) {
     //
     var foundMain = null;
     //
-    // does adapterMainSysId exist in adapterData
-    if (Object.prototype.hasOwnProperty.call(adapterData, adapterMainSysId)) {
-      foundMain = adapterData[adapterMainSysId];
+    // does testNetworkAdapterSysId exist in adapterData (was the network adapter sys_id even found)
+    if (Object.prototype.hasOwnProperty.call(adapterData, testNetworkAdapterSysId)) {
+      foundMain = adapterData[testNetworkAdapterSysId];
       // does the connected port have a reference
       if (foundMain.connectedPortSysId !== null) {
         // does that reference exist in cmdb_ci_network_adapter
@@ -108,13 +108,13 @@ var cmdbCiNetworkAdapterTester = function (networkAdapterSysIdArray) {
     }
     return false;
   };
-  var testMainConnectedPortNotEmpty = function (adapterMainSysId) {
+  var testMainConnectedPortNotEmpty = function (testNetworkAdapterSysId) {
     //
     var foundMain = null;
     //
-    // does adapterMainSysId exist in adapterData
-    if (Object.prototype.hasOwnProperty.call(adapterData, adapterMainSysId)) {
-      foundMain = adapterData[adapterMainSysId];
+    // does testNetworkAdapterSysId exist in adapterData (was the network adapter sys_id even found)
+    if (Object.prototype.hasOwnProperty.call(adapterData, testNetworkAdapterSysId)) {
+      foundMain = adapterData[testNetworkAdapterSysId];
       // does the connected port have a reference
       if (foundMain.connectedPortSysId !== null) {
         return true;
@@ -122,14 +122,14 @@ var cmdbCiNetworkAdapterTester = function (networkAdapterSysIdArray) {
     }
     return false;
   };
-  var testMainConnectedCiMatchesConnectedPortCi = function (adapterMainSysId) {
+  var testMainConnectedCiMatchesConnectedPortCi = function (testNetworkAdapterSysId) {
     //
     var foundConnected = null;
     var foundMain = null;
     //
-    // does adapterMainSysId exist in adapterData
-    if (Object.prototype.hasOwnProperty.call(adapterData, adapterMainSysId)) {
-      foundMain = adapterData[adapterMainSysId];
+    // does testNetworkAdapterSysId exist in adapterData (was the network adapter sys_id even found)
+    if (Object.prototype.hasOwnProperty.call(adapterData, testNetworkAdapterSysId)) {
+      foundMain = adapterData[testNetworkAdapterSysId];
       // does the connected port have a reference
       if (foundMain.connectedPortSysId !== null) {
         // does the connected port exist in adapterData
@@ -150,21 +150,21 @@ var cmdbCiNetworkAdapterTester = function (networkAdapterSysIdArray) {
     }
     return false;
   };
-  var testAdapterMain = function (adapterMainSysId) {
+  var testAdapterMain = function (testNetworkAdapterSysId) {
     //
     var url = '';
     //
     // @ts-ignore
         url += gs.getProperty('glide.servlet.uri'); 
     //
-    reportData[adapterMainSysId] = {
-      testMainCiNotEmpty: testMainCiNotEmpty(adapterMainSysId),
-      testMainCiValid: testMainCiValid(adapterMainSysId),
-      testMainConnectedCiMatchesConnectedPortCi: testMainConnectedCiMatchesConnectedPortCi(adapterMainSysId),
-      testMainConnectedCiNotEmpty: testMainConnectedCiNotEmpty(adapterMainSysId),
-      testMainConnectedCiValid: testMainConnectedCiValid(adapterMainSysId),
-      testMainConnectedPortNotEmpty: testMainConnectedPortNotEmpty(adapterMainSysId),
-      testMainConnectedPortValid: testMainConnectedPortValid(adapterMainSysId),
+    reportData[testNetworkAdapterSysId] = {
+      testMainCiNotEmpty: testMainCiNotEmpty(testNetworkAdapterSysId),
+      testMainCiValid: testMainCiValid(testNetworkAdapterSysId),
+      testMainConnectedCiMatchesConnectedPortCi: testMainConnectedCiMatchesConnectedPortCi(testNetworkAdapterSysId),
+      testMainConnectedCiNotEmpty: testMainConnectedCiNotEmpty(testNetworkAdapterSysId),
+      testMainConnectedCiValid: testMainConnectedCiValid(testNetworkAdapterSysId),
+      testMainConnectedPortNotEmpty: testMainConnectedPortNotEmpty(testNetworkAdapterSysId),
+      testMainConnectedPortValid: testMainConnectedPortValid(testNetworkAdapterSysId),
       testConnectedPortFieldsAlreadyMatchMainFields: false,
       testConnectedPortCiNotEmpty: false,
       testConnectedPortCiValid: false,
@@ -172,18 +172,30 @@ var cmdbCiNetworkAdapterTester = function (networkAdapterSysIdArray) {
       testConnectedPortConnectedCiValid: false,
       testConnectedPortConnectedPortNotEmpty: false,
       testConnectedPortConnectedPortValid: false,
-      urlNetworkAdapter: ''.concat(url, 'cmdb_ci_network_adapter.do?sys_id=').concat(adapterMainSysId),
+      urlNetworkAdapter: ''.concat(url, 'cmdb_ci_network_adapter.do?sys_id=').concat(testNetworkAdapterSysId),
     };
   };
   var adapterLoop = function () {
-    networkAdapterSysIdArray.forEach(function (adapterMainSysId) {
-      testAdapterMain(adapterMainSysId);
+    networkAdapterSysIdArray.forEach(function (testNetworkAdapterSysId) {
+      testAdapterMain(testNetworkAdapterSysId);
     });
   };
-  var checkString = function (testVariable) {
-    if (typeof testVariable === 'string') {
-      if (testVariable !== '') {
-        return testVariable;
+  var checkSysId = function (testSysId) {
+    //
+    var whiteSpaceRemoved = '';
+    //
+    // the type is string
+    if (typeof testSysId === 'string') {
+      // copy the test sys_id to a string that will have all whitespace removed
+      whiteSpaceRemoved = testSysId;
+      whiteSpaceRemoved.replace(' ', '');
+      whiteSpaceRemoved.replace(/\t/g, '');
+      // the string contains non whitespace characters
+      if (whiteSpaceRemoved !== '') {
+        // the string is 32 characters long. standard for a servicenow sys_id
+        if (testSysId.length === 32) {
+          return testSysId;
+        }
       }
     }
     return null;
@@ -202,7 +214,7 @@ var cmdbCiNetworkAdapterTester = function (networkAdapterSysIdArray) {
     // @ts-ignore
     while (grHardware.next()) {
       // @ts-ignore
-      ciSysId = checkString(grHardware.getValue('sys_id'));
+      ciSysId = checkSysId(grHardware.getValue('sys_id'));
       if (ciSysId !== null) {
         validCiSysId[ciSysId] = true;
       }
@@ -225,13 +237,13 @@ var cmdbCiNetworkAdapterTester = function (networkAdapterSysIdArray) {
     // @ts-ignore
     while (grPortConnected.next()) {
       // @ts-ignore
-      adapterRemoteSysId = checkString(grPortConnected.getUniqueValue());
+      adapterRemoteSysId = checkSysId(grPortConnected.getUniqueValue());
       // @ts-ignore
-      ciSysId = checkString(grPortConnected.getValue('cmdb_ci'));
+      ciSysId = checkSysId(grPortConnected.getValue('cmdb_ci'));
       // @ts-ignore
-      connectedCiSysId = checkString(grPortConnected.getValue('u_switch'));
+      connectedCiSysId = checkSysId(grPortConnected.getValue('u_switch'));
       // @ts-ignore
-      connectedPortSysId = checkString(grPortConnected.getValue('u_switchport'));
+      connectedPortSysId = checkSysId(grPortConnected.getValue('u_switchport'));
       if (adapterRemoteSysId !== null) {
         adapterData[adapterRemoteSysId] = {
           ciSysId: ciSysId,
@@ -266,7 +278,7 @@ var cmdbCiNetworkAdapterTester = function (networkAdapterSysIdArray) {
     }
   };
   var getNetworkAdaptersMain = function () {
-    var adapterMainSysId;
+    var testNetworkAdapterSysId;
     var ciSysId;
     var connectedCiSysId;
     var connectedPortSysId;
@@ -281,15 +293,15 @@ var cmdbCiNetworkAdapterTester = function (networkAdapterSysIdArray) {
     // @ts-ignore
     while (grPortMain.next()) {
       // @ts-ignore
-      adapterMainSysId = checkString(grPortMain.getUniqueValue());
+      testNetworkAdapterSysId = checkSysId(grPortMain.getUniqueValue());
       // @ts-ignore
-      ciSysId = checkString(grPortMain.getValue('cmdb_ci'));
+      ciSysId = checkSysId(grPortMain.getValue('cmdb_ci'));
       // @ts-ignore
-      connectedCiSysId = checkString(grPortMain.getValue('u_switch'));
+      connectedCiSysId = checkSysId(grPortMain.getValue('u_switch'));
       // @ts-ignore
-      connectedPortSysId = checkString(grPortMain.getValue('u_switchport'));
-      if (adapterMainSysId !== null) {
-        adapterData[adapterMainSysId] = {
+      connectedPortSysId = checkSysId(grPortMain.getValue('u_switchport'));
+      if (testNetworkAdapterSysId !== null) {
+        adapterData[testNetworkAdapterSysId] = {
           ciSysId: ciSysId,
           connectedCiSysId: connectedCiSysId,
           connectedPortSysId: connectedPortSysId,
@@ -340,10 +352,10 @@ var cmdbCiNetworkAdapterTester = function (networkAdapterSysIdArray) {
 //
 var foo = {};
 //
-var checkString = function (testVariable) {
-  if (typeof testVariable === 'string') {
-    if (testVariable !== '') {
-      return testVariable;
+var checkSysId = function (testSysId) {
+  if (typeof testSysId === 'string') {
+    if (testSysId !== '') {
+      return testSysId;
     }
   }
   return null;
@@ -365,7 +377,7 @@ var getTestData = function () {
   // @ts-ignore
   while (grTestAdapters.next()) {
     // @ts-ignore
-    checkAdapterSysId = checkString(grTestAdapters.getUniqueValue());
+    checkAdapterSysId = checkSysId(grTestAdapters.getUniqueValue());
     if (checkAdapterSysId !== null) {
       testAdapterData.push(checkAdapterSysId);
     }
@@ -404,7 +416,7 @@ var networkAdapterSysIdArray = getTestData();
 //
 //
 //
-foo = cmdbCiNetworkAdapterTester(networkAdapterSysIdArray);
+foo = magnusCmdbCiNetworkAdapterReport(networkAdapterSysIdArray);
 //
 //
 //
