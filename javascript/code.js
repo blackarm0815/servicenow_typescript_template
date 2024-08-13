@@ -158,6 +158,13 @@ var magnusCmdbCiNetworkAdapterReport = function (networkAdapterSysIdArray) {
         url += gs.getProperty('glide.servlet.uri'); 
     //
     reportData[testNetworkAdapterSysId] = {
+      testConnectedPortCiNotEmpty: 'not coded yet',
+      testConnectedPortCiValid: 'not coded yet',
+      testConnectedPortConnectedCiNotEmpty: 'not coded yet',
+      testConnectedPortConnectedCiValid: 'not coded yet',
+      testConnectedPortConnectedPortNotEmpty: 'not coded yet',
+      testConnectedPortConnectedPortValid: 'not coded yet',
+      testConnectedPortFieldsAlreadyMatchMainFields: 'not coded yet',
       testMainCiNotEmpty: testMainCiNotEmpty(testNetworkAdapterSysId),
       testMainCiValid: testMainCiValid(testNetworkAdapterSysId),
       testMainConnectedCiMatchesConnectedPortCi: testMainConnectedCiMatchesConnectedPortCi(testNetworkAdapterSysId),
@@ -165,13 +172,6 @@ var magnusCmdbCiNetworkAdapterReport = function (networkAdapterSysIdArray) {
       testMainConnectedCiValid: testMainConnectedCiValid(testNetworkAdapterSysId),
       testMainConnectedPortNotEmpty: testMainConnectedPortNotEmpty(testNetworkAdapterSysId),
       testMainConnectedPortValid: testMainConnectedPortValid(testNetworkAdapterSysId),
-      testConnectedPortFieldsAlreadyMatchMainFields: false,
-      testConnectedPortCiNotEmpty: false,
-      testConnectedPortCiValid: false,
-      testConnectedPortConnectedCiNotEmpty: false,
-      testConnectedPortConnectedCiValid: false,
-      testConnectedPortConnectedPortNotEmpty: false,
-      testConnectedPortConnectedPortValid: false,
       urlNetworkAdapter: ''.concat(url, 'cmdb_ci_network_adapter.do?sys_id=').concat(testNetworkAdapterSysId),
     };
   };

@@ -6,28 +6,6 @@ var magnusCmdbCiNetworkAdapterReport = function (networkAdapterSysIdArray) {
   var validCiSysId = {};
   var reportData = {};
   //
-  //
-  //
-  //
-  // const testConnectedPortFieldsAlreadyMatchMainFields = (
-  //   testNetworkAdapterSysId: string,
-  // ) => {
-  //   //
-  //   let foundConnected: NetworkAdapterData | null = null;
-  //   let foundMain: NetworkAdapterData | null = null;
-  //   //
-  //   if (connectedPortSysId !== null) {
-  //     foundConnected = adapterData[connectedPortSysId];
-  //     foundMain = adapterData[testNetworkAdapterSysId];
-  //     if (foundConnected !== undefined && foundMain !== undefined) {
-  //       // proceed if either field needs fixing
-  //       if (foundConnected.connectedCiSysId !== foundMain.ciSysId || foundConnected.connectedPortSysId !== testNetworkAdapterSysId) {
-  //         return true;
-  //       }
-  //     }
-  //   }
-  //   return false;
-  // };
   var testMainConnectedCiValid = function (testNetworkAdapterSysId) {
     //
     var foundMain = null;
@@ -153,9 +131,16 @@ var magnusCmdbCiNetworkAdapterReport = function (networkAdapterSysIdArray) {
     //
     var url = '';
     //
-        url += gs.getProperty('glide.servlet.uri'); 
+    url += gs.getProperty('glide.servlet.uri'); 
     //
     reportData[testNetworkAdapterSysId] = {
+      testConnectedPortCiNotEmpty: 'not coded yet',
+      testConnectedPortCiValid: 'not coded yet',
+      testConnectedPortConnectedCiNotEmpty: 'not coded yet',
+      testConnectedPortConnectedCiValid: 'not coded yet',
+      testConnectedPortConnectedPortNotEmpty: 'not coded yet',
+      testConnectedPortConnectedPortValid: 'not coded yet',
+      testConnectedPortFieldsAlreadyMatchMainFields: 'not coded yet',
       testMainCiNotEmpty: testMainCiNotEmpty(testNetworkAdapterSysId),
       testMainCiValid: testMainCiValid(testNetworkAdapterSysId),
       testMainConnectedCiMatchesConnectedPortCi: testMainConnectedCiMatchesConnectedPortCi(testNetworkAdapterSysId),
@@ -163,13 +148,6 @@ var magnusCmdbCiNetworkAdapterReport = function (networkAdapterSysIdArray) {
       testMainConnectedCiValid: testMainConnectedCiValid(testNetworkAdapterSysId),
       testMainConnectedPortNotEmpty: testMainConnectedPortNotEmpty(testNetworkAdapterSysId),
       testMainConnectedPortValid: testMainConnectedPortValid(testNetworkAdapterSysId),
-      testConnectedPortFieldsAlreadyMatchMainFields: false,
-      testConnectedPortCiNotEmpty: false,
-      testConnectedPortCiValid: false,
-      testConnectedPortConnectedCiNotEmpty: false,
-      testConnectedPortConnectedCiValid: false,
-      testConnectedPortConnectedPortNotEmpty: false,
-      testConnectedPortConnectedPortValid: false,
       urlNetworkAdapter: ''.concat(url, 'cmdb_ci_network_adapter.do?sys_id=').concat(testNetworkAdapterSysId),
     };
   };
@@ -203,7 +181,7 @@ var magnusCmdbCiNetworkAdapterReport = function (networkAdapterSysIdArray) {
     var ciSysId;
     var grHardware = null;
     //
-        grHardware = new GlideRecord('cmdb_ci'); 
+    grHardware = new GlideRecord('cmdb_ci'); 
     grHardware.addQuery('sys_id', 'IN', Object.keys(uniqueCiSysIds));
     grHardware.query();
     while (grHardware.next()) {
@@ -221,7 +199,7 @@ var magnusCmdbCiNetworkAdapterReport = function (networkAdapterSysIdArray) {
     var connectedPortSysId;
     var grPortConnected = null;
     //
-        grPortConnected = new GlideRecord('cmdb_ci_network_adapter'); 
+    grPortConnected = new GlideRecord('cmdb_ci_network_adapter'); 
     grPortConnected.addQuery('sys_id', 'IN', connectedAdaptersNeeded);
     grPortConnected.query();
     while (grPortConnected.next()) {
@@ -269,7 +247,7 @@ var magnusCmdbCiNetworkAdapterReport = function (networkAdapterSysIdArray) {
     var connectedPortSysId;
     var grPortMain = null;
     //
-        grPortMain = new GlideRecord('cmdb_ci_network_adapter'); 
+    grPortMain = new GlideRecord('cmdb_ci_network_adapter'); 
     grPortMain.addQuery('sys_id', 'IN', networkAdapterSysIdArray);
     grPortMain.query();
     while (grPortMain.next()) {
@@ -306,105 +284,3 @@ var magnusCmdbCiNetworkAdapterReport = function (networkAdapterSysIdArray) {
   main();
   return reportData;
 };
-// end of script include
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-var foo = {};
-//
-var checkSysId = function (testSysId) {
-  if (typeof testSysId === 'string') {
-    if (testSysId !== '') {
-      return testSysId;
-    }
-  }
-  return null;
-};
-var getTestData = function () {
-  //
-  var grTestAdapters;
-  var testAdapterData = [];
-  var checkAdapterSysId;
-  //
-    grTestAdapters = new GlideRecord('cmdb_ci_network_adapter'); 
-  grTestAdapters.addEncodedQuery('cmdb_ciISNOTEMPTY^u_switchISNOTEMPTY^u_switchportISNOTEMPTY');
-  grTestAdapters.setLimit(10);
-  grTestAdapters.query();
-  while (grTestAdapters.next()) {
-    checkAdapterSysId = checkSysId(grTestAdapters.getUniqueValue());
-    if (checkAdapterSysId !== null) {
-      testAdapterData.push(checkAdapterSysId);
-    }
-  }
-  return testAdapterData;
-};
-//
-//
-// remove everything below this before putting it in the script include
-var showReport = function () {
-  var reportText = '';
-  reportText += '<pre>';
-  reportText += JSON.stringify(foo, null, 2);
-  reportText += '</pre>';
-    gs.print(reportText); 
-};
-var networkAdapterSysIdArray = getTestData();
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-foo = magnusCmdbCiNetworkAdapterReport(networkAdapterSysIdArray);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-showReport();

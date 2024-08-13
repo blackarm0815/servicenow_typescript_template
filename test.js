@@ -1,34 +1,20 @@
-// current state of tests
-//
-// reportData[testNetworkAdapterSysId] = {
-//
-//
-//
-//
-//   testMainCiNotEmpty: testMainCiNotEmpty(testNetworkAdapterSysId),
-//   testMainCiValid: testMainCiValid(testNetworkAdapterSysId),
-//   testMainConnectedCiMatchesConnectedPortCi: testMainConnectedCiMatchesConnectedPortCi(testNetworkAdapterSysId),
-//   testMainConnectedCiNotEmpty: testMainConnectedCiNotEmpty(testNetworkAdapterSysId),
-//   testMainConnectedCiValid: testMainConnectedCiValid(testNetworkAdapterSysId),
-//   testMainConnectedPortNotEmpty: testMainConnectedPortNotEmpty(testNetworkAdapterSysId),
-//   testMainConnectedPortValid: testMainConnectedPortValid(testNetworkAdapterSysId),
-//
-//
-//
-//
-//   testConnectedPortFieldsAlreadyMatchMainFields: false,
-//   testConnectedPortCiNotEmpty: false,
-//   testConnectedPortCiValid: false,
-//   testConnectedPortConnectedCiNotEmpty: false,
-//   testConnectedPortConnectedCiValid: false,
-//   testConnectedPortConnectedPortNotEmpty: false,
-//   testConnectedPortConnectedPortValid: false,
-//
-//
-//
-//
-//   urlNetworkAdapter: `${url}cmdb_ci_network_adapter.do?sys_id=${testNetworkAdapterSysId}`,
-// };
+// interface ReportData {
+//   // testConnectedPortCiNotEmpty: boolean;
+//   // testConnectedPortCiValid: boolean;
+//   // testConnectedPortConnectedCiNotEmpty: boolean;
+//   // testConnectedPortConnectedCiValid: boolean;
+//   // testConnectedPortConnectedPortNotEmpty: boolean;
+//   // testConnectedPortConnectedPortValid: boolean;
+//   // testConnectedPortFieldsAlreadyMatchMainFields: boolean;
+//   testMainCiNotEmpty: boolean;
+//   testMainCiValid: boolean;
+//   testMainConnectedCiMatchesConnectedPortCi: boolean;
+//   testMainConnectedCiNotEmpty: boolean;
+//   testMainConnectedCiValid: boolean;
+//   testMainConnectedPortNotEmpty: boolean;
+//   testMainConnectedPortValid: boolean;
+//   urlNetworkAdapter: string,
+// }
 //
 //
 //
@@ -40,9 +26,6 @@ var queryLimit  = '10';
 //
 //
 var cmdbCiNetworkAdapterReport = {};
-//
-//
-//
 //
 var checkSysId = function (testSysId) {
   //
@@ -82,9 +65,6 @@ var getTestData = function () {
   }
   return testAdapterData;
 };
-//
-//
-// remove everything below this before putting it in the script include
 var showReport = function () {
   var reportText = '';
   reportText += '<pre>';
