@@ -22,5 +22,6 @@ echo
 # remove the code at the end of the script, leaving only what is needed for the script include
 echo "making code.js"
 sed '/end of script include/q' $javascript_file | grep -v 'end of script include' > $javascript_folder/$javascript_file
+rm $javascript_file
 cd $javascript_folder
 ./build.sh
