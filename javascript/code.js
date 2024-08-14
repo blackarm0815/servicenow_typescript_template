@@ -1,4 +1,3 @@
-// eslint-disable-next-line
 var magnusCmdbCiNetworkAdapterReport = function (networkAdapterSysIdArray) {
   // globals
   var adapterData = {};
@@ -10,7 +9,7 @@ var magnusCmdbCiNetworkAdapterReport = function (networkAdapterSysIdArray) {
   //
   //
   //
-  // const testConnectedPortFieldsAlreadyMatchMainFields = (
+  // const testRemotePortFieldsMatchMainFields = (
   //   testNetworkAdapterSysId: string,
   // ) => {
   //   //
@@ -29,7 +28,7 @@ var magnusCmdbCiNetworkAdapterReport = function (networkAdapterSysIdArray) {
   //   }
   //   return false;
   // };
-  var testMainConnectedCiValid = function (testNetworkAdapterSysId) {
+  var testMainPortConnectedCiHasValidSysId = function (testNetworkAdapterSysId) {
     //
     var foundMain = null;
     //
@@ -46,7 +45,7 @@ var magnusCmdbCiNetworkAdapterReport = function (networkAdapterSysIdArray) {
     }
     return false;
   };
-  var testMainConnectedCiNotEmpty = function (testNetworkAdapterSysId) {
+  var testMainPortConnectedCiHasSysId = function (testNetworkAdapterSysId) {
     //
     var foundMain = null;
     //
@@ -60,7 +59,7 @@ var magnusCmdbCiNetworkAdapterReport = function (networkAdapterSysIdArray) {
     }
     return false;
   };
-  var testMainCiValid = function (testNetworkAdapterSysId) {
+  var testMainPortCiHasValidSysId = function (testNetworkAdapterSysId) {
     //
     var foundMain = null;
     //
@@ -77,7 +76,7 @@ var magnusCmdbCiNetworkAdapterReport = function (networkAdapterSysIdArray) {
     }
     return false;
   };
-  var testMainCiNotEmpty = function (testNetworkAdapterSysId) {
+  var testMainPortCiHasSysId = function (testNetworkAdapterSysId) {
     //
     var foundMain = null;
     //
@@ -91,7 +90,7 @@ var magnusCmdbCiNetworkAdapterReport = function (networkAdapterSysIdArray) {
     }
     return false;
   };
-  var testMainConnectedPortValid = function (testNetworkAdapterSysId) {
+  var testMainPortConnectedPortHasValidSysId = function (testNetworkAdapterSysId) {
     //
     var foundMain = null;
     //
@@ -108,7 +107,7 @@ var magnusCmdbCiNetworkAdapterReport = function (networkAdapterSysIdArray) {
     }
     return false;
   };
-  var testMainConnectedPortNotEmpty = function (testNetworkAdapterSysId) {
+  var testMainPortConnectedPortHasSysId = function (testNetworkAdapterSysId) {
     //
     var foundMain = null;
     //
@@ -122,7 +121,7 @@ var magnusCmdbCiNetworkAdapterReport = function (networkAdapterSysIdArray) {
     }
     return false;
   };
-  var testMainConnectedCiMatchesConnectedPortCi = function (testNetworkAdapterSysId) {
+  var testMainPortConnectedPortIsOnConnectedCi = function (testNetworkAdapterSysId) {
     //
     var foundConnected = null;
     var foundMain = null;
@@ -150,28 +149,54 @@ var magnusCmdbCiNetworkAdapterReport = function (networkAdapterSysIdArray) {
     }
     return false;
   };
+  var testRemotePortActuallyExists = function (testNetworkAdapterSysId) {
+    //
+    var foundMain = null;
+    //
+    // does testNetworkAdapterSysId exist in adapterData (was it found in cmdb_ci_network_adapter)
+    if (Object.prototype.hasOwnProperty.call(adapterData, testNetworkAdapterSysId)) {
+      foundMain = adapterData[testNetworkAdapterSysId];
+      // does the connected port have a reference
+      if (foundMain.connectedPortSysId !== null) {
+        // does the connected port exist in adapterData (was it found in cmdb_ci_network_adapter)
+        if (Object.prototype.hasOwnProperty.call(adapterData, foundMain.connectedPortSysId)) {
+          return true;
+        }
+      }
+    }
+    return false;
+  };
+  var testMainPortActuallyExists = function (testNetworkAdapterSysId) {
+    // does testNetworkAdapterSysId exist in adapterData (was the network adapter sys_id even found)
+    if (Object.prototype.hasOwnProperty.call(adapterData, testNetworkAdapterSysId)) {
+      return true;
+    }
+    return false;
+  };
   var testAdapterMain = function (testNetworkAdapterSysId) {
     //
     var url = '';
     //
     // @ts-ignore
-        url += gs.getProperty('glide.servlet.uri'); 
+    url += gs.getProperty('glide.servlet.uri');
     //
     reportData[testNetworkAdapterSysId] = {
-      testConnectedPortCiNotEmpty: 'not coded yet',
-      testConnectedPortCiValid: 'not coded yet',
-      testConnectedPortConnectedCiNotEmpty: 'not coded yet',
-      testConnectedPortConnectedCiValid: 'not coded yet',
-      testConnectedPortConnectedPortNotEmpty: 'not coded yet',
-      testConnectedPortConnectedPortValid: 'not coded yet',
-      testConnectedPortFieldsAlreadyMatchMainFields: 'not coded yet',
-      testMainCiNotEmpty: testMainCiNotEmpty(testNetworkAdapterSysId),
-      testMainCiValid: testMainCiValid(testNetworkAdapterSysId),
-      testMainConnectedCiMatchesConnectedPortCi: testMainConnectedCiMatchesConnectedPortCi(testNetworkAdapterSysId),
-      testMainConnectedCiNotEmpty: testMainConnectedCiNotEmpty(testNetworkAdapterSysId),
-      testMainConnectedCiValid: testMainConnectedCiValid(testNetworkAdapterSysId),
-      testMainConnectedPortNotEmpty: testMainConnectedPortNotEmpty(testNetworkAdapterSysId),
-      testMainConnectedPortValid: testMainConnectedPortValid(testNetworkAdapterSysId),
+      testMainPortActuallyExists: testMainPortActuallyExists(testNetworkAdapterSysId),
+      testMainPortCiHasSysId: testMainPortCiHasSysId(testNetworkAdapterSysId),
+      testMainPortCiHasValidSysId: testMainPortCiHasValidSysId(testNetworkAdapterSysId),
+      testMainPortConnectedCiHasSysId: testMainPortConnectedCiHasSysId(testNetworkAdapterSysId),
+      testMainPortConnectedCiHasValidSysId: testMainPortConnectedCiHasValidSysId(testNetworkAdapterSysId),
+      testMainPortConnectedPortHasSysId: testMainPortConnectedPortHasSysId(testNetworkAdapterSysId),
+      testMainPortConnectedPortHasValidSysId: testMainPortConnectedPortHasValidSysId(testNetworkAdapterSysId),
+      testMainPortConnectedPortIsOnConnectedCi: testMainPortConnectedPortIsOnConnectedCi(testNetworkAdapterSysId),
+      testRemotePortActuallyExists: testRemotePortActuallyExists(testNetworkAdapterSysId),
+      testRemotePortCiHasSysId: 'not coded yet',
+      testRemotePortCiHasValidSysId: 'not coded yet',
+      testRemotePortConnectedCiHasSysId: 'not coded yet',
+      testRemotePortConnectedCiHasValidSysId: 'not coded yet',
+      testRemotePortConnectedPortHasSysId: 'not coded yet',
+      testRemotePortConnectedPortHasValidSysId: 'not coded yet',
+      testRemotePortFieldsMatchMainFields: 'not coded yet',
       urlNetworkAdapter: ''.concat(url, 'cmdb_ci_network_adapter.do?sys_id=').concat(testNetworkAdapterSysId),
     };
   };
@@ -206,7 +231,7 @@ var magnusCmdbCiNetworkAdapterReport = function (networkAdapterSysIdArray) {
     var grHardware = null;
     //
     // @ts-ignore
-        grHardware = new GlideRecord('cmdb_ci'); 
+    grHardware = new GlideRecord('cmdb_ci');
     // @ts-ignore
     grHardware.addQuery('sys_id', 'IN', Object.keys(uniqueCiSysIds));
     // @ts-ignore
@@ -229,7 +254,7 @@ var magnusCmdbCiNetworkAdapterReport = function (networkAdapterSysIdArray) {
     var grPortConnected = null;
     //
     // @ts-ignore
-        grPortConnected = new GlideRecord('cmdb_ci_network_adapter'); 
+    grPortConnected = new GlideRecord('cmdb_ci_network_adapter');
     // @ts-ignore
     grPortConnected.addQuery('sys_id', 'IN', connectedAdaptersNeeded);
     // @ts-ignore
@@ -285,7 +310,7 @@ var magnusCmdbCiNetworkAdapterReport = function (networkAdapterSysIdArray) {
     var grPortMain = null;
     //
     // @ts-ignore
-        grPortMain = new GlideRecord('cmdb_ci_network_adapter'); 
+    grPortMain = new GlideRecord('cmdb_ci_network_adapter');
     // @ts-ignore
     grPortMain.addQuery('sys_id', 'IN', networkAdapterSysIdArray);
     // @ts-ignore
@@ -329,112 +354,3 @@ var magnusCmdbCiNetworkAdapterReport = function (networkAdapterSysIdArray) {
   main();
   return reportData;
 };
-// end of script include
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-var foo = {};
-//
-var checkSysId = function (testSysId) {
-  if (typeof testSysId === 'string') {
-    if (testSysId !== '') {
-      return testSysId;
-    }
-  }
-  return null;
-};
-var getTestData = function () {
-  //
-  var grTestAdapters;
-  var testAdapterData = [];
-  var checkAdapterSysId;
-  //
-  // @ts-ignore
-    grTestAdapters = new GlideRecord('cmdb_ci_network_adapter'); 
-  // @ts-ignore
-  grTestAdapters.addEncodedQuery('cmdb_ciISNOTEMPTY^u_switchISNOTEMPTY^u_switchportISNOTEMPTY');
-  // @ts-ignore
-  grTestAdapters.setLimit(10);
-  // @ts-ignore
-  grTestAdapters.query();
-  // @ts-ignore
-  while (grTestAdapters.next()) {
-    // @ts-ignore
-    checkAdapterSysId = checkSysId(grTestAdapters.getUniqueValue());
-    if (checkAdapterSysId !== null) {
-      testAdapterData.push(checkAdapterSysId);
-    }
-  }
-  return testAdapterData;
-};
-//
-//
-// remove everything below this before putting it in the script include
-var showReport = function () {
-  var reportText = '';
-  reportText += '<pre>';
-  reportText += JSON.stringify(foo, null, 2);
-  reportText += '</pre>';
-  // @ts-ignore
-    gs.print(reportText); 
-};
-var networkAdapterSysIdArray = getTestData();
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-foo = magnusCmdbCiNetworkAdapterReport(networkAdapterSysIdArray);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-showReport();

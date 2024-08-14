@@ -6,11 +6,5 @@ sed -i "s/\"/'/g" code.js
 npx eslint $javascript_file --no-eslintrc --fix --rule 'indent: [2, 2]'
 # fix the braces
 npx eslint $javascript_file --no-eslintrc --fix --rule 'brace-style: ["error", "1tbs", { "allowSingleLine": true }]'
-if npx eslint $javascript_file
-then
-  sed  -i 's/\/\/ eslint-disable-line//g' $javascript_file
-  grep -v eslint-disable-next-line < $javascript_file > a.js
-  grep -v @ts-ignore < a.js > b.js
-  mv b.js $final_file
-  rm a.js
-fi
+# remove typescript ignores
+grep -v @ts-ignore < $javascript_file > $final_file

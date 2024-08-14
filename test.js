@@ -1,24 +1,3 @@
-// interface ReportData {
-//   // testConnectedPortCiNotEmpty: boolean;
-//   // testConnectedPortCiValid: boolean;
-//   // testConnectedPortConnectedCiNotEmpty: boolean;
-//   // testConnectedPortConnectedCiValid: boolean;
-//   // testConnectedPortConnectedPortNotEmpty: boolean;
-//   // testConnectedPortConnectedPortValid: boolean;
-//   // testConnectedPortFieldsAlreadyMatchMainFields: boolean;
-//   testMainCiNotEmpty: boolean;
-//   testMainCiValid: boolean;
-//   testMainConnectedCiMatchesConnectedPortCi: boolean;
-//   testMainConnectedCiNotEmpty: boolean;
-//   testMainConnectedCiValid: boolean;
-//   testMainConnectedPortNotEmpty: boolean;
-//   testMainConnectedPortValid: boolean;
-//   urlNetworkAdapter: string,
-// }
-//
-//
-//
-//
 var encodedQuery = 'cmdb_ciISNOTEMPTY^u_switchISNOTEMPTY^u_switchportISNOTEMPTY';
 var queryLimit  = '10';
 //
@@ -26,6 +5,9 @@ var queryLimit  = '10';
 //
 //
 var cmdbCiNetworkAdapterReport = {};
+//
+//
+//
 //
 var checkSysId = function (testSysId) {
   //

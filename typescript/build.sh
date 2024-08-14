@@ -19,10 +19,8 @@ else
 fi
 echo
 
-# copy script include without the line that runs the function (needed for eslint)
+# remove the code at the end of the script, leaving only what is needed for the script include
 echo "making code.js"
-# sed '/end of script include/q' $javascript_file | grep -v 'end of script include' > $javascript_folder/$javascript_file
-mv  $javascript_file $javascript_folder/$javascript_file
-
+sed '/end of script include/q' $javascript_file | grep -v 'end of script include' > $javascript_folder/$javascript_file
 cd $javascript_folder
 ./build.sh
