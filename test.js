@@ -1,14 +1,13 @@
 var encodedQuery = 'cmdb_ciISNOTEMPTY^u_switchISNOTEMPTY^u_switchportISNOTEMPTY';
-var queryLimit  = '10';
 //
 //
 //
 //
-var cmdbCiNetworkAdapterReport = {};
-//
-//
-//
-//
+var report = function (cmdbCiNetworkAdapterReport) {
+  Object.keys(cmdbCiNetworkAdapterReport).forEach(function (sysId) {
+    gs.print(cmdbCiNetworkAdapterReport[sysId]);
+  })
+};
 var checkSysId = function (testSysId) {
   //
   var whiteSpaceRemoved = '';
@@ -37,7 +36,23 @@ var getTestData = function () {
   //
   grTestAdapters = new GlideRecord('cmdb_ci_network_adapter'); 
   grTestAdapters.addEncodedQuery(encodedQuery);
-  grTestAdapters.setLimit(queryLimit);
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  grTestAdapters.setLimit('10');
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
   grTestAdapters.query();
   while (grTestAdapters.next()) {
     checkAdapterSysId = checkSysId(grTestAdapters.getUniqueValue());
@@ -47,16 +62,10 @@ var getTestData = function () {
   }
   return testAdapterData;
 };
-var showReport = function () {
-  var reportText = '';
-  reportText += '<pre>';
-  reportText += JSON.stringify(cmdbCiNetworkAdapterReport, null, 2);
-  reportText += '</pre>';
-    gs.print(reportText); 
-};
+// gather some cmdb_ci_network_adapters sys_ids for testing
 var networkAdapterSysIdArray = getTestData();
 //
-// get report from the script include
-cmdbCiNetworkAdapterReport = magnusCmdbCiNetworkAdapterReport(networkAdapterSysIdArray);
+// get report data from the script include
+var cmdbCiNetworkAdapterReport = magnusCmdbCiNetworkAdapterReport(networkAdapterSysIdArray);
 //
-showReport();
+report(cmdbCiNetworkAdapterReport); 

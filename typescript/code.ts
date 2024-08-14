@@ -8,13 +8,14 @@ interface ReportData {
   testMainPortConnectedPortHasValidSysId: boolean;
   testMainPortConnectedPortIsOnConnectedCi: boolean;
   testRemotePortActuallyExists: boolean,
-  testRemotePortCiHasSysId: string;
-  testRemotePortCiHasValidSysId: string;
-  testRemotePortConnectedCiHasSysId: string;
-  testRemotePortConnectedCiHasValidSysId: string;
-  testRemotePortConnectedPortHasSysId: string;
-  testRemotePortConnectedPortHasValidSysId: string;
-  testRemotePortFieldsMatchMainPortFields: boolean;
+  testRemotePortCiHasSysId: boolean;
+  testRemotePortCiHasValidSysId: boolean;
+  testRemotePortConnectedCiHasSysId: boolean;
+  testRemotePortConnectedCiHasValidSysId: boolean;
+  testRemotePortConnectedCiMatchesMainPortCi: boolean;
+  testRemotePortConnectedPortHasSysId: boolean;
+  testRemotePortConnectedPortHasValidSysId: boolean;
+  testRemotePortConnectedPortMatchesMainPort: boolean;
   urlNetworkAdapter: string,
 }
 const magnusCmdbCiNetworkAdapterReport = (networkAdapterSysIdArray: Array<string>) => {
@@ -25,16 +26,23 @@ const magnusCmdbCiNetworkAdapterReport = (networkAdapterSysIdArray: Array<string
     connectedPortSysId: string | null;
   }
   // globals
+  //
+  // the data on the main network adapters, the network adapters they are connected to
+  // and any other network adapters might exists on the connected ports of the connected ports
   const adapterData: Record<string, NetworkAdapterData> = {};
-  const uniqueCiSysIds: Record<string, boolean> = {};
-  const uniqueConnectedPorts: Record<string, boolean> = {};
-  const validCiSysId: Record<string, boolean> = {};
+  // the report data that is returned at the end
   const reportData: Record<string, ReportData> = {};
+  // all cmdb_ci sys_ids that will need to be tested
+  const uniqueCiSysIds: Record<string, boolean> = {};
+  // all of the connected ports that are found
+  const uniqueConnectedPorts: Record<string, boolean> = {};
+  // all of the cmdb_ci sys_ids that were found when searching with uniqueCiSysIds
+  const validCiSysId: Record<string, boolean> = {};
   //
   //
   //
   //
-  const testRemotePortFieldsMatchMainPortFields = (
+  const testRemotePortConnectedPortMatchesMainPort = (
     testNetworkAdapterSysId: string,
   ) => {
     //
@@ -55,6 +63,183 @@ const magnusCmdbCiNetworkAdapterReport = (networkAdapterSysIdArray: Array<string
             if (foundRemotePort.connectedPortSysId === testNetworkAdapterSysId) {
               return true;
             }
+          }
+        }
+      }
+    }
+    return false;
+  };
+  const testRemotePortConnectedPortHasValidSysId = (
+    testNetworkAdapterSysId: string,
+  ) => {
+    //
+    let foundMainPort: NetworkAdapterData | null = null;
+    let foundRemotePort: NetworkAdapterData | null = null;
+    //
+    // does testNetworkAdapterSysId exist in adapterData (was it found in cmdb_ci_network_adapter)
+    if (Object.prototype.hasOwnProperty.call(adapterData, testNetworkAdapterSysId)) {
+      foundMainPort = adapterData[testNetworkAdapterSysId];
+      // does the connected port have a reference
+      if (foundMainPort.connectedPortSysId !== null) {
+        // does the connected port exist in adapterData (was it found in cmdb_ci_network_adapter)
+        if (Object.prototype.hasOwnProperty.call(adapterData, foundMainPort.connectedPortSysId)) {
+          foundRemotePort = adapterData[foundMainPort.connectedPortSysId];
+          // does the remote port connected port have a sys_id
+          if (foundRemotePort.connectedPortSysId !== null) {
+            // does the remote port connected port exist in adapterData
+            if (Object.prototype.hasOwnProperty.call(adapterData, foundRemotePort.connectedPortSysId)) {
+              return true;
+            }
+          }
+        }
+      }
+    }
+    return false;
+  };
+  const testRemotePortConnectedPortHasSysId = (
+    testNetworkAdapterSysId: string,
+  ) => {
+    //
+    let foundMainPort: NetworkAdapterData | null = null;
+    let foundRemotePort: NetworkAdapterData | null = null;
+    //
+    // does testNetworkAdapterSysId exist in adapterData (was it found in cmdb_ci_network_adapter)
+    if (Object.prototype.hasOwnProperty.call(adapterData, testNetworkAdapterSysId)) {
+      foundMainPort = adapterData[testNetworkAdapterSysId];
+      // does the connected port have a reference
+      if (foundMainPort.connectedPortSysId !== null) {
+        // does the connected port exist in adapterData (was it found in cmdb_ci_network_adapter)
+        if (Object.prototype.hasOwnProperty.call(adapterData, foundMainPort.connectedPortSysId)) {
+          foundRemotePort = adapterData[foundMainPort.connectedPortSysId];
+          // does the remote port connected port have a sys_id
+          if (foundRemotePort.connectedPortSysId !== null) {
+            return true;
+          }
+        }
+      }
+    }
+    return false;
+  };
+  const testRemotePortConnectedCiMatchesMainPortCi = (
+    testNetworkAdapterSysId: string,
+  ) => {
+    //
+    let foundMainPort: NetworkAdapterData | null = null;
+    let foundRemotePort: NetworkAdapterData | null = null;
+    //
+    // does testNetworkAdapterSysId exist in adapterData (was it found in cmdb_ci_network_adapter)
+    if (Object.prototype.hasOwnProperty.call(adapterData, testNetworkAdapterSysId)) {
+      foundMainPort = adapterData[testNetworkAdapterSysId];
+      // does the connected port have a reference
+      if (foundMainPort.connectedPortSysId !== null) {
+        // does the connected port exist in adapterData (was it found in cmdb_ci_network_adapter)
+        if (Object.prototype.hasOwnProperty.call(adapterData, foundMainPort.connectedPortSysId)) {
+          foundRemotePort = adapterData[foundMainPort.connectedPortSysId];
+          // does the remote port connected ci match the main port ci
+          if (foundRemotePort.connectedCiSysId === foundMainPort.ciSysId) {
+            return true;
+          }
+        }
+      }
+    }
+    return false;
+  };
+  const testRemotePortConnectedCiHasValidSysId = (
+    testNetworkAdapterSysId: string,
+  ) => {
+    //
+    let foundMainPort: NetworkAdapterData | null = null;
+    let foundRemotePort: NetworkAdapterData | null = null;
+    //
+    // does testNetworkAdapterSysId exist in adapterData (was it found in cmdb_ci_network_adapter)
+    if (Object.prototype.hasOwnProperty.call(adapterData, testNetworkAdapterSysId)) {
+      foundMainPort = adapterData[testNetworkAdapterSysId];
+      // does the connected port have a reference
+      if (foundMainPort.connectedPortSysId !== null) {
+        // does the connected port exist in adapterData (was it found in cmdb_ci_network_adapter)
+        if (Object.prototype.hasOwnProperty.call(adapterData, foundMainPort.connectedPortSysId)) {
+          foundRemotePort = adapterData[foundMainPort.connectedPortSysId];
+          // does the remote port connected ci have a sys_id
+          if (foundRemotePort.connectedCiSysId !== null) {
+            // is the remote port connected ci sys_id valid
+            if (Object.prototype.hasOwnProperty.call(validCiSysId, foundRemotePort.connectedCiSysId)) {
+              return true;
+            }
+          }
+        }
+      }
+    }
+    return false;
+  };
+  const testRemotePortConnectedCiHasSysId = (
+    testNetworkAdapterSysId: string,
+  ) => {
+    //
+    let foundMainPort: NetworkAdapterData | null = null;
+    let foundRemotePort: NetworkAdapterData | null = null;
+    //
+    // does testNetworkAdapterSysId exist in adapterData (was it found in cmdb_ci_network_adapter)
+    if (Object.prototype.hasOwnProperty.call(adapterData, testNetworkAdapterSysId)) {
+      foundMainPort = adapterData[testNetworkAdapterSysId];
+      // does the connected port have a reference
+      if (foundMainPort.connectedPortSysId !== null) {
+        // does the connected port exist in adapterData (was it found in cmdb_ci_network_adapter)
+        if (Object.prototype.hasOwnProperty.call(adapterData, foundMainPort.connectedPortSysId)) {
+          foundRemotePort = adapterData[foundMainPort.connectedPortSysId];
+          // does the remote port ci have a sys_id
+          if (foundRemotePort.connectedCiSysId !== null) {
+            return true;
+          }
+        }
+      }
+    }
+    return false;
+  };
+  const testRemotePortCiHasValidSysId = (
+    testNetworkAdapterSysId: string,
+  ) => {
+    //
+    let foundMainPort: NetworkAdapterData | null = null;
+    let foundRemotePort: NetworkAdapterData | null = null;
+    //
+    // does testNetworkAdapterSysId exist in adapterData (was it found in cmdb_ci_network_adapter)
+    if (Object.prototype.hasOwnProperty.call(adapterData, testNetworkAdapterSysId)) {
+      foundMainPort = adapterData[testNetworkAdapterSysId];
+      // does the connected port have a reference
+      if (foundMainPort.connectedPortSysId !== null) {
+        // does the connected port exist in adapterData (was it found in cmdb_ci_network_adapter)
+        if (Object.prototype.hasOwnProperty.call(adapterData, foundMainPort.connectedPortSysId)) {
+          foundRemotePort = adapterData[foundMainPort.connectedPortSysId];
+          // does the remote port ci have a sys_id
+          if (foundRemotePort.ciSysId !== null) {
+            // is the remote port ci sys_id valid
+            if (Object.prototype.hasOwnProperty.call(validCiSysId, foundRemotePort.ciSysId)) {
+              return true;
+            }
+          }
+        }
+      }
+    }
+    return false;
+  };
+  const testRemotePortCiHasSysId = (
+    testNetworkAdapterSysId: string,
+  ) => {
+    //
+    let foundMainPort: NetworkAdapterData | null = null;
+    let foundRemotePort: NetworkAdapterData | null = null;
+    //
+    // does testNetworkAdapterSysId exist in adapterData (was it found in cmdb_ci_network_adapter)
+    if (Object.prototype.hasOwnProperty.call(adapterData, testNetworkAdapterSysId)) {
+      foundMainPort = adapterData[testNetworkAdapterSysId];
+      // does the connected port have a reference
+      if (foundMainPort.connectedPortSysId !== null) {
+        // does the connected port exist in adapterData (was it found in cmdb_ci_network_adapter)
+        if (Object.prototype.hasOwnProperty.call(adapterData, foundMainPort.connectedPortSysId)) {
+          foundRemotePort = adapterData[foundMainPort.connectedPortSysId];
+          // does the remote port ci have a sys_id
+          if (foundRemotePort.ciSysId !== null) {
+            return true;
           }
         }
       }
@@ -243,13 +428,14 @@ const magnusCmdbCiNetworkAdapterReport = (networkAdapterSysIdArray: Array<string
       testMainPortConnectedPortHasValidSysId: testMainPortConnectedPortHasValidSysId(testNetworkAdapterSysId),
       testMainPortConnectedPortIsOnConnectedCi: testMainPortConnectedPortIsOnConnectedCi(testNetworkAdapterSysId),
       testRemotePortActuallyExists: testRemotePortActuallyExists(testNetworkAdapterSysId),
-      testRemotePortCiHasSysId: 'not coded yet',
-      testRemotePortCiHasValidSysId: 'not coded yet',
-      testRemotePortConnectedCiHasSysId: 'not coded yet',
-      testRemotePortConnectedCiHasValidSysId: 'not coded yet',
-      testRemotePortConnectedPortHasSysId: 'not coded yet',
-      testRemotePortConnectedPortHasValidSysId: 'not coded yet',
-      testRemotePortFieldsMatchMainPortFields: testRemotePortFieldsMatchMainPortFields(testNetworkAdapterSysId),
+      testRemotePortCiHasSysId: testRemotePortCiHasSysId(testNetworkAdapterSysId),
+      testRemotePortCiHasValidSysId: testRemotePortCiHasValidSysId(testNetworkAdapterSysId),
+      testRemotePortConnectedCiHasSysId: testRemotePortConnectedCiHasSysId(testNetworkAdapterSysId),
+      testRemotePortConnectedCiHasValidSysId: testRemotePortConnectedCiHasValidSysId(testNetworkAdapterSysId),
+      testRemotePortConnectedCiMatchesMainPortCi: testRemotePortConnectedCiMatchesMainPortCi(testNetworkAdapterSysId),
+      testRemotePortConnectedPortHasSysId: testRemotePortConnectedPortHasSysId(testNetworkAdapterSysId),
+      testRemotePortConnectedPortHasValidSysId: testRemotePortConnectedPortHasValidSysId(testNetworkAdapterSysId),
+      testRemotePortConnectedPortMatchesMainPort: testRemotePortConnectedPortMatchesMainPort(testNetworkAdapterSysId),
       urlNetworkAdapter: `${url}cmdb_ci_network_adapter.do?sys_id=${testNetworkAdapterSysId}`,
     };
   };
@@ -300,90 +486,34 @@ const magnusCmdbCiNetworkAdapterReport = (networkAdapterSysIdArray: Array<string
       }
     }
   };
-  const getNetworkAdaptersconnected = (
-    connectedAdaptersNeeded: Array<string>,
+  const getNetworkAdapters = (
+    networkAdaptersToFind: Array<string>,
   ) => {
     //
-    let adapterRemoteSysId: string | null;
-    let ciSysId: string | null;
-    let connectedCiSysId: string | null;
-    let connectedPortSysId: string | null;
-    let grPortConnected: unknown | null = null;
-    //
-    // @ts-ignore
-    grPortConnected = new GlideRecord('cmdb_ci_network_adapter');
-    // @ts-ignore
-    grPortConnected.addQuery('sys_id', 'IN', connectedAdaptersNeeded);
-    // @ts-ignore
-    grPortConnected.query();
-    // @ts-ignore
-    while (grPortConnected.next()) {
-      // @ts-ignore
-      adapterRemoteSysId = checkSysId(grPortConnected.getUniqueValue());
-      // @ts-ignore
-      ciSysId = checkSysId(grPortConnected.getValue('cmdb_ci'));
-      // @ts-ignore
-      connectedCiSysId = checkSysId(grPortConnected.getValue('u_switch'));
-      // @ts-ignore
-      connectedPortSysId = checkSysId(grPortConnected.getValue('u_switchport'));
-      if (adapterRemoteSysId !== null) {
-        adapterData[adapterRemoteSysId] = {
-          ciSysId,
-          connectedCiSysId,
-          connectedPortSysId,
-        };
-        // uniqueCiSysIds will be tested for validity
-        if (ciSysId !== null) {
-          uniqueCiSysIds[ciSysId] = true;
-        }
-        if (connectedCiSysId !== null) {
-          uniqueCiSysIds[connectedCiSysId] = true;
-        }
-      }
-    }
-  };
-  const testConnectedAdaptersNeeded = () => {
-    //
-    const connectedAdaptersNeeded: Array<string> = [];
-    //
-    Object.keys(uniqueConnectedPorts).forEach((connectedPortSysId) => {
-      // if the connected adapter is not already in the adapterData
-      if (!Object.prototype.hasOwnProperty.call(adapterData, connectedPortSysId)) {
-        // store for a second gliderecord query on the network adapter table
-        connectedAdaptersNeeded.push(connectedPortSysId);
-      }
-    });
-    //
-    // if any connected ports do not exist in adapterData, get them
-    if (connectedAdaptersNeeded.length > 0) {
-      getNetworkAdaptersconnected(connectedAdaptersNeeded);
-    }
-  };
-  const getNetworkAdaptersMain = () => {
-    let testNetworkAdapterSysId: string | null;
     let ciSysId: string | null;
     let connectedCiSysId: string | null;
     let connectedPortSysId: string | null;
     let grPortMain: unknown | null = null;
+    let networkAdapterSysId: string | null;
     //
     // @ts-ignore
     grPortMain = new GlideRecord('cmdb_ci_network_adapter');
     // @ts-ignore
-    grPortMain.addQuery('sys_id', 'IN', networkAdapterSysIdArray);
+    grPortMain.addQuery('sys_id', 'IN', networkAdaptersToFind);
     // @ts-ignore
     grPortMain.query();
     // @ts-ignore
     while (grPortMain.next()) {
       // @ts-ignore
-      testNetworkAdapterSysId = checkSysId(grPortMain.getUniqueValue());
+      networkAdapterSysId = checkSysId(grPortMain.getUniqueValue());
       // @ts-ignore
       ciSysId = checkSysId(grPortMain.getValue('cmdb_ci'));
       // @ts-ignore
       connectedCiSysId = checkSysId(grPortMain.getValue('u_switch'));
       // @ts-ignore
       connectedPortSysId = checkSysId(grPortMain.getValue('u_switchport'));
-      if (testNetworkAdapterSysId !== null) {
-        adapterData[testNetworkAdapterSysId] = {
+      if (networkAdapterSysId !== null) {
+        adapterData[networkAdapterSysId] = {
           ciSysId,
           connectedCiSysId,
           connectedPortSysId,
@@ -402,12 +532,48 @@ const magnusCmdbCiNetworkAdapterReport = (networkAdapterSysIdArray: Array<string
       }
     }
   };
+  const areNetworkAdaptersAlreadyFound = (
+    networkAdaptersToCheck: Record<string, boolean>,
+  ) => {
+    //
+    const notFound: Array<string> = [];
+    //
+    Object.keys(networkAdaptersToCheck).forEach((testNetworkAdapter) => {
+      // if the connected adapter is not already in the adapterData
+      if (!Object.prototype.hasOwnProperty.call(adapterData, testNetworkAdapter)) {
+        // store for a second gliderecord query on the network adapter table
+        notFound.push(testNetworkAdapter);
+      }
+    });
+    return notFound;
+  };
+  const networkAdapterSearch = () => {
+    //
+    let moreAdaptersNeeded: Array<string> = [];
+    //
+    // get the main network adapters
+    getNetworkAdapters(networkAdapterSysIdArray);
+    //
+    // the main adapters may have connected ports that need to be found to
+    // check for these and collect them too if needed
+    moreAdaptersNeeded = areNetworkAdaptersAlreadyFound(uniqueConnectedPorts);
+    if (moreAdaptersNeeded.length > 0) {
+      getNetworkAdapters(moreAdaptersNeeded);
+    }
+    //
+    // the remote ports might have connected ports that are not the main port
+    // check for these and collect them too if needed
+    moreAdaptersNeeded = areNetworkAdaptersAlreadyFound(uniqueConnectedPorts);
+    if (moreAdaptersNeeded.length > 0) {
+      getNetworkAdapters(moreAdaptersNeeded);
+    }
+  };
   const main = () => {
-    getNetworkAdaptersMain();
-    testConnectedAdaptersNeeded();
+    networkAdapterSearch();
     getValidCis();
     adapterLoop();
   };
+  //
   main();
   return reportData;
 };
