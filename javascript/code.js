@@ -1,4 +1,5 @@
 var magnusCmdbCiNetworkAdapterReport = function (networkAdapterSysIdArray) {
+  //
   // globals
   //
   // the data on the main network adapters, the network adapters they are connected to
@@ -29,12 +30,9 @@ var magnusCmdbCiNetworkAdapterReport = function (networkAdapterSysIdArray) {
         // does the connected port exist in adapterData (was it found in cmdb_ci_network_adapter)
         if (Object.prototype.hasOwnProperty.call(adapterData, foundMainPort.connectedPortSysId)) {
           foundRemotePort = adapterData[foundMainPort.connectedPortSysId];
-          // does the remote port connected ci match the main port ci
-          if (foundRemotePort.connectedCiSysId === foundMainPort.ciSysId) {
-            // does the remote port connected port match the main port sys_id
-            if (foundRemotePort.connectedPortSysId === testNetworkAdapterSysId) {
-              return true;
-            }
+          // does the remote port connected port match the main port sys_id
+          if (foundRemotePort.connectedPortSysId === testNetworkAdapterSysId) {
+            return true;
           }
         }
       }
@@ -96,14 +94,22 @@ var magnusCmdbCiNetworkAdapterReport = function (networkAdapterSysIdArray) {
     // does testNetworkAdapterSysId exist in adapterData (was it found in cmdb_ci_network_adapter)
     if (Object.prototype.hasOwnProperty.call(adapterData, testNetworkAdapterSysId)) {
       foundMainPort = adapterData[testNetworkAdapterSysId];
-      // does the connected port have a reference
-      if (foundMainPort.connectedPortSysId !== null) {
-        // does the connected port exist in adapterData (was it found in cmdb_ci_network_adapter)
-        if (Object.prototype.hasOwnProperty.call(adapterData, foundMainPort.connectedPortSysId)) {
-          foundRemotePort = adapterData[foundMainPort.connectedPortSysId];
-          // does the remote port connected ci match the main port ci
-          if (foundRemotePort.connectedCiSysId === foundMainPort.ciSysId) {
-            return true;
+      // does the ci have a reference
+      if (foundMainPort.ciSysId !== null) {
+        // does that reference exist in cmdb_ci
+        if (Object.prototype.hasOwnProperty.call(validCiSysId, foundMainPort.ciSysId)) {
+          // does the connected port have a reference
+          if (foundMainPort.connectedPortSysId !== null) {
+            // does the connected port exist in adapterData (was it found in cmdb_ci_network_adapter)
+            if (Object.prototype.hasOwnProperty.call(adapterData, foundMainPort.connectedPortSysId)) {
+              foundRemotePort = adapterData[foundMainPort.connectedPortSysId];
+              // does the remote port connected ci match the main port ci
+              // foundRemotePort.connectedCiSysId does not need to be tested itself
+              // it is being compared to foundMainPort.ciSysId, which is already fully tested
+              if (foundRemotePort.connectedCiSysId === foundMainPort.ciSysId) {
+                return true;
+              }
+            }
           }
         }
       }
@@ -229,18 +235,24 @@ var magnusCmdbCiNetworkAdapterReport = function (networkAdapterSysIdArray) {
     // does testNetworkAdapterSysId exist in adapterData (was the network adapter sys_id even found)
     if (Object.prototype.hasOwnProperty.call(adapterData, testNetworkAdapterSysId)) {
       foundMainPort = adapterData[testNetworkAdapterSysId];
-      // does the connected port have a reference
-      if (foundMainPort.connectedPortSysId !== null) {
-        // does the connected port exist in adapterData
-        if (Object.prototype.hasOwnProperty.call(adapterData, foundMainPort.connectedPortSysId)) {
-          foundRemotePort = adapterData[foundMainPort.connectedPortSysId];
-          // does the connected port have a ci reference
-          if (foundRemotePort.ciSysId !== null) {
-            // if the connected port ci is valid
-            if (Object.prototype.hasOwnProperty.call(validCiSysId, foundRemotePort.ciSysId)) {
-              // if the connected port ci matches the main adapter connected ci
-              if (foundRemotePort.ciSysId === foundMainPort.connectedCiSysId) {
-                return true;
+      // does the main port have a connected ci
+      if (foundMainPort.connectedCiSysId !== null) {
+        // is the main port connected ci valid
+        if (Object.prototype.hasOwnProperty.call(validCiSysId, foundMainPort.connectedCiSysId)) {
+          // does the connected port have a reference
+          if (foundMainPort.connectedPortSysId !== null) {
+            // does the connected port exist in adapterData
+            if (Object.prototype.hasOwnProperty.call(adapterData, foundMainPort.connectedPortSysId)) {
+              foundRemotePort = adapterData[foundMainPort.connectedPortSysId];
+              // does the connected port have a ci reference
+              if (foundRemotePort.ciSysId !== null) {
+                // if the connected port ci is valid
+                if (Object.prototype.hasOwnProperty.call(validCiSysId, foundRemotePort.ciSysId)) {
+                  // if the connected port ci matches the main adapter connected ci
+                  if (foundRemotePort.ciSysId === foundMainPort.connectedCiSysId) {
+                    return true;
+                  }
+                }
               }
             }
           }
@@ -383,21 +395,11 @@ var magnusCmdbCiNetworkAdapterReport = function (networkAdapterSysIdArray) {
     });
   };
   var checkSysId = function (testSysId) {
-    //
-    var whiteSpaceRemoved = '';
-    //
     // the type is string
     if (typeof testSysId === 'string') {
-      // copy the test sys_id to a string that will have all whitespace removed
-      whiteSpaceRemoved = testSysId;
-      whiteSpaceRemoved.replace(' ', '');
-      whiteSpaceRemoved.replace(/\t/g, '');
-      // the string contains non whitespace characters
-      if (whiteSpaceRemoved !== '') {
-        // the string is 32 characters long. standard for a servicenow sys_id
-        if (testSysId.length === 32) {
-          return testSysId;
-        }
+      // the string is not empty
+      if (testSysId !== '') {
+        return testSysId;
       }
     }
     return null;
@@ -459,46 +461,43 @@ var magnusCmdbCiNetworkAdapterReport = function (networkAdapterSysIdArray) {
         if (connectedCiSysId !== null) {
           uniqueCiSysIds[connectedCiSysId] = true;
         }
-        // these are gathered for the getNetworkAdaptersconnected function
+        // these are gathered for the getMissingConnectedPorts function
         if (connectedPortSysId !== null) {
           uniqueConnectedPorts[connectedPortSysId] = true;
         }
       }
     }
   };
-  var areNetworkAdaptersAlreadyFound = function (networkAdaptersToCheck) {
+  var getMissingConnectedPorts = function () {
     //
     var notFound = [];
     //
-    Object.keys(networkAdaptersToCheck).forEach(function (testNetworkAdapter) {
+    Object.keys(uniqueConnectedPorts).forEach(function (connectedPortSysId) {
       // if the connected adapter is not already in the adapterData
-      if (!Object.prototype.hasOwnProperty.call(adapterData, testNetworkAdapter)) {
+      if (!Object.prototype.hasOwnProperty.call(adapterData, connectedPortSysId)) {
         // store for a second gliderecord query on the network adapter table
-        notFound.push(testNetworkAdapter);
+        notFound.push(connectedPortSysId);
       }
     });
-    return notFound;
+    if (notFound.length > 0) {
+      // some of the connected cis need to be collected
+      getNetworkAdapters(notFound);
+    }
   };
   var networkAdapterSearch = function () {
-    //
-    var moreAdaptersNeeded = [];
-    //
-    // get the main network adapters
+    // search for the requested network adapter sys_ids
     getNetworkAdapters(networkAdapterSysIdArray);
     //
-    // the main adapters may have connected ports that need to be found to
-    // check for these and collect them too if needed
-    moreAdaptersNeeded = areNetworkAdaptersAlreadyFound(uniqueConnectedPorts);
-    if (moreAdaptersNeeded.length > 0) {
-      getNetworkAdapters(moreAdaptersNeeded);
-    }
+    // the requested adapters will probably have connected ports that need to be found
+    // compare the connected cis to adapters that have already been found
+    // and get the ones that are still neeeded
+    getMissingConnectedPorts();
     //
-    // the remote ports might have connected ports that are not the main port
+    // now that the remote ports have been collected, they will have their own connected ports
+    // these might be some of the originally requested network adapters, or they could be something else
     // check for these and collect them too if needed
-    moreAdaptersNeeded = areNetworkAdaptersAlreadyFound(uniqueConnectedPorts);
-    if (moreAdaptersNeeded.length > 0) {
-      getNetworkAdapters(moreAdaptersNeeded);
-    }
+    // these need to be collected to verify the connected ci reference is valid
+    getMissingConnectedPorts();
   };
   var main = function () {
     networkAdapterSearch();
@@ -507,5 +506,8 @@ var magnusCmdbCiNetworkAdapterReport = function (networkAdapterSysIdArray) {
   };
     //
   main();
-  return reportData;
+  return {
+    adapterData: adapterData,
+    reportData: reportData,
+  };
 };

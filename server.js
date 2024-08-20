@@ -1,10 +1,17 @@
 (function () {
   //
-  var report = {};
+  var adapterData = {};
+  var reportData = {};
   //
   var processSysIdArray = function (testSysIdArray) {
+    gs.addInfoMessage(testSysIdArray);
     var newArray = testSysIdArray.split(',');
-    report = magnusCmdbCiNetworkAdapterReport(newArray);
+    gs.addInfoMessage(JSON.stringify(newArray));
+    var results = magnusCmdbCiNetworkAdapterReport(newArray);
+    reportData = results.reportData;
+    gs.addInfoMessage(JSON.stringify(reportData));
+    adapterData = results.adapterData;
+    gs.addInfoMessage(JSON.stringify(adapterData));
   };
   //
   var main = function () {
@@ -16,5 +23,6 @@
   };
   //
   main();
-  data.report = report;
+  data.adapterData = adapterData;
+  data.reportData = reportData;
 })();

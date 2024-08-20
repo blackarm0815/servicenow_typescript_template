@@ -1,29 +1,21 @@
-var encodedQuery = 'cmdb_ciISNOTEMPTY^u_switchISNOTEMPTY^u_switchportISNOTEMPTY';
+// https://godaddydev.service-now.com/now/nav/ui/classic/params/target/cmdb_ci_network_adapter_list.do%3Fsysparm_query%3Dcmdb_ciISNOTEMPTY%255Eu_switchISNOTEMPTY%255Eu_switchportISNOTEMPTY
+//
+//
+//
+//
+var encodedQuery = 'sys_id=4a3175791bf7b950bc47c99f034bcbcd';
 //
 //
 //
 //
 var report = function (cmdbCiNetworkAdapterReport) {
-  Object.keys(cmdbCiNetworkAdapterReport).forEach(function (sysId) {
-    gs.print(cmdbCiNetworkAdapterReport[sysId]);
-  })
+  gs.print(cmdbCiNetworkAdapterReport.reportData);
+  gs.print(cmdbCiNetworkAdapterReport.adapterData);
 };
 var checkSysId = function (testSysId) {
-  //
-  var whiteSpaceRemoved = '';
-  //
-  // the type is string
   if (typeof testSysId === 'string') {
-    // copy the test sys_id to a string that will have all whitespace removed
-    whiteSpaceRemoved = testSysId;
-    whiteSpaceRemoved.replace(' ', '');
-    whiteSpaceRemoved.replace(/\t/g, '');
-    // the string contains non whitespace characters
-    if (whiteSpaceRemoved !== '') {
-      // the string is 32 characters long. standard for a servicenow sys_id
-      if (testSysId.length === 32) {
-        return testSysId;
-      }
+    if (testSysId !== '') {
+      return testSysId;
     }
   }
   return null;
@@ -38,19 +30,7 @@ var getTestData = function () {
   grTestAdapters.addEncodedQuery(encodedQuery);
   //
   //
-  //
-  //
-  //
-  //
-  //
-  //
   grTestAdapters.setLimit('10');
-  //
-  //
-  //
-  //
-  //
-  //
   //
   //
   grTestAdapters.query();
